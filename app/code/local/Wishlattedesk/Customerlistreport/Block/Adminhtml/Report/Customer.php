@@ -41,7 +41,7 @@ class Wishlattedesk_Customerlistreport_Block_Adminhtml_Report_Customer extends M
                 $collection->addFieldToFilter('created_at', array('lt' => $filterData['joinDateTo']));
             }
 
-            if (!empty($filterData['customerGroup'])) {
+            if (!empty($filterData['customerGroup']) && $filterData['customerGroup'] != 0) {
                 $collection->addFieldToFilter('group_id', array('eq' => $filterData['customerGroup']));
             }
 

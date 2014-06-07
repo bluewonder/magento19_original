@@ -17,6 +17,7 @@
     <div>
         <h5><?php echo $this->__('Customer Group') ?></h5>
         <select id="customer-group">
+            <option value="0"><?php echo $this->__('All') ?></option>
             <?php foreach($this->getCustomerGroup() as $customerGroup): ?>
                 <option value="<?php echo $customerGroup->getId() ?>"><?php echo $customerGroup->getCode() ?></option>
             <?php endforeach; ?>

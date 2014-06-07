@@ -184,27 +184,26 @@ class Wishlattedesk_Customerlistreport_Block_Adminhtml_Report_Customer extends M
         if ($zip->open(Mage::getBaseDir("var") . DS .'customerreport'.DS .$filename, ZipArchive::CREATE)!==TRUE) {
             exit("cannot open <$filename>\n");
         }
+
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->getProperties()
+            ->setTitle($this->__('Customer Report'));
+
+        $objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')
+            ->setSize(10);
+        // Column title
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', Mage::helper('customerlistreport')->__('ID'))
+            ->setCellValue('B1', Mage::helper('customerlistreport')->__('Name'))
+            ->setCellValue('C1', Mage::helper('customerlistreport')->__('Telephone'))
+            ->setCellValue('D1', Mage::helper('customerlistreport')->__('Relations'));
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+        $i = 2; // data will be filled from row 2
+
         foreach ($this->getCollection() as $_item) {
-            if (($count % $itemPerPage) == 1) {
-                $objPHPExcel = new PHPExcel();
-                $objPHPExcel->getProperties()
-                    ->setTitle($this->__('Customer Report'));
-
-                $objPHPExcel->getDefaultStyle()->getFont()->setName('Arial')
-                    ->setSize(10);
-                // Column title
-                $objPHPExcel->getActiveSheet()->setCellValue('A1', Mage::helper('customerlistreport')->__('ID'))
-                    ->setCellValue('B1', Mage::helper('customerlistreport')->__('Name'))
-                    ->setCellValue('C1', Mage::helper('customerlistreport')->__('Telephone'))
-                    ->setCellValue('D1', Mage::helper('customerlistreport')->__('Relations'));
-
-                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-                $i = 2; // data will be filled from row 2
-            }
-
             $customer = Mage::getModel('customer/customer');
             $j = 1; // start write data to col 1
             foreach ($this->getColumns() as $_column) {
@@ -238,21 +237,12 @@ class Wishlattedesk_Customerlistreport_Block_Adminhtml_Report_Customer extends M
                     $j++;
                 }
             }
-            if (($count % $itemPerPage) == 0 || $count == $this->getCollection()->getSize()) {
-//                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-
-                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
-                $objWriter->setSheetIndex(0);
-//                $objWriter->save(str_replace('.php', '_'.$rendererName.'.pdf', __FILE__));
-
-                $dir = Mage::getBaseDir("var") . DS .'customerreport' . DS . $count.'.pdf';
-                $objWriter->save($dir);
-                $zip->addFile($dir, $count.'.pdf');
-            }
             $i++;
-            $count++;
         }
-        return $zip;
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
+        $objWriter->setSheetIndex(0);
+        $dir = Mage::getBaseDir("var") . DS .'customerreport' . DS .'customer.pdf';
+        $objWriter->save($dir);
     }
 
     public function getXlsFile()

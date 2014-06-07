@@ -86,11 +86,11 @@ class Wishlattedesk_Customerlistreport_Adminhtml_Customer_ReportController exten
 
     public function exportPdfAction()
     {
-        $fileName   = 'customerreport.zip';
+        $fileName   = 'customer.pdf';
         $filepath   = Mage::getBaseDir("var") . DS .'customerreport';
         Mage::register('do_exporting', true);
         // Redirect output to a client’s web browser (Excel5)
-        header('Content-Type: application/octet-stream');
+        header('Content-Type: application/pdf');
         header('Content-Disposition: attachment;filename="'.$fileName.'"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed

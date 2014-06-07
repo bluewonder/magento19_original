@@ -173,6 +173,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
+
+
+
         $this->_title($this->__('Catalog'))
              ->_title($this->__('Manage Products'));
 

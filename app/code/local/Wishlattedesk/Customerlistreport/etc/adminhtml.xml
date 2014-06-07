@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <customer>
+                        <children>
+                            <customerlistreport>
+                                <title>Customer Report</title>
+                                <sort_order>11</sort_order>
+                            </customerlistreport>
+                        </children>
+                    </customer>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <customer>
+            <children>
+                <customerlistreport>
+                    <title>Customer Report</title>
+                    <sort_order>22</sort_order>
+                    <action>adminhtml/customer_report/index</action>
+                </customerlistreport>
+            </children>
+        </customer>
+    </menu>
+</config>

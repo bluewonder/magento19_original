@@ -1,0 +1,168 @@
+<?php
+/**
+ * Wishlattedesk_Customerrelationship
+ *
+ * @category    Wishlattedesk
+ * @package     Wishlattedesk_Customerrelationship
+ * @copyright   Copyright (c) 2014 Wishlattedesk Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author      Hieu Nguyen (Wishlattedesk's team)
+ * @email       bzaikia@gmail.com
+ */
+
+?>
+<div>
+    <h3>Current relationship</h3>
+</div>
+<?php echo $this->getChildHtml('relationship_grid') ?>
+<div id="edit-field">
+        <div><b><?php echo $this->__('Currently editing customer relationship ID') ?>: <span id="customer-relationship-id"></span></b></div>
+        <?php echo $this->__('Choose relationship') ?>:
+        <select id="changeform-relation">
+            <?php foreach($this->getAllRelationship() as $relation): ?>
+                <option value="<?php echo $relation->getId() ?>"><?php echo $relation->getTitle() ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        Remark: <input type="text" id="changeform-remark" />
+
+        <button class="scalable task" type="button" onclick="saveRelationshipInfo()"><span><span><span><?php echo $this->__('Save') ?></span></span></span></button>
+        <button class="cancel scalable task" type="button" onclick="jQuery('#edit-field').hide();"><span><span><span><?php echo $this->__('Cancel') ?></span></span></span></button>
+
+</div>
+<?php echo $this->toggleBlockAddRelation() ?>
+<div id="add-new-relation" style="display: none">
+    <?php echo $this->getChildHtml('customer_grid') ?>
+    <label for="relation-select"><?php echo $this->__('Choose relationship to add') ?>:</label>
+    <div style="padding-bottom: 10px;">
+        <select id="relation-select">
+            <?php foreach($this->getAllRelationship() as $relation): ?>
+                <option value="<?php echo $relation->getId() ?>"><?php echo $relation->getTitle() ?></option>
+            <?php endforeach; ?>
+        </select> <br /> <br />
+        <?php echo $this->__('Remark') ?>: <input type="text" name="remark" />
+    </div>
+    <?php echo $this->getAddRelationButton() ?>
+</div>
+
+<script type="text/javascript" >
+    var selectedCustomer = [];
+    customer_relationship_grid_massactionJsObject.setUseAjax(true);
+    var editMode = false;
+    var currentEdittingRelationship;
+    jQuery('#edit-field').hide();
+
+    // get all relationship to local
+
+    var customerRelationship = {};
+    downloadCustomerRelationship();
+
+
+    function updateSelectCustomer() {
+        selectedCustomer = [];
+        $$('#add-new-relation input[type="checkbox"]').each(
+            function(item){
+                if (item.checked) {
+                    selectedCustomer.push(item.value);
+                }
+            }
+        )
+    }
+
+    function addItem() {
+        if (selectedCustomer.toString() == '') {
+            alert('<?php echo $this->__('please pick at least one customer to add relationship to') ?>');
+        } else {
+            new Ajax.Request('<?php echo Mage::getModel('adminhtml/url')->getUrl('*/*/addNewRelationship') ?>', {
+                method: 'post',
+                parameters: {
+                    customer:<?php echo $this->getRequest()->getParam('id') ?  $this->getRequest()->getParam('id') : '' ?>,
+                    remark: $$('input[name="remark"]')[1].value,
+                    relatives: selectedCustomer.toString(),
+                    relationship: $('relation-select').value
+                },
+                onSuccess: function(response) {
+                    var result = JSON.parse(response.responseText);
+                    if (result.error) {
+                        alert(result.message);
+                    } else {
+                        // Reload the grid
+                        customer_relationship_gridJsObject.reload();
+                        // Hide Adding block
+                        jQuery('#add-new-relation').hide();
+                        // Clear input
+                        jQuery('#relation-select').val('');
+                        jQuery('input[name="remark"]').val('');
+                        jQuery('#add-new-relation input[type="checkbox"]').attr('checked', false);
+                        // Download local relationship
+                        downloadCustomerRelationship();
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     *  Change information of specific relationship
+     * */
+    function changeInfo(itemId) {
+        jQuery('#edit-field').show();
+        jQuery('#customer-relationship-id').html(itemId);
+        currentEdittingRelationship = itemId;
+        loadInfo(itemId);
+    }
+
+    function loadInfo(itemId)
+    {
+        var item =  customerRelationship[itemId];
+        if (typeof item == 'object') {
+            jQuery('#changeform-relation').val(item.relationship_id);
+            jQuery('#changeform-remark').val(item.remark);
+        }
+    }
+
+    function clearEditForm()
+    {
+        jQuery('#changeform-relation').val('');
+        jQuery('#changeform-remark').val('');
+    }
+
+    function saveRelationshipInfo()
+    {
+        new Ajax.Request('<?php echo Mage::getModel('adminhtml/url')->getUrl('*/*/editCustomerRelationship') ?>', {
+            method: 'post',
+            parameters: {
+                id: currentEdittingRelationship,
+                relationship: jQuery('#changeform-relation').val(),
+                remark: jQuery('#changeform-remark').val()
+            },
+            onSuccess: function(response) {
+                var result = JSON.parse(response.responseText);
+                if (result.error) {
+                    alert(result.message);
+                } else {
+                    // Reload the grid
+                    customer_relationship_gridJsObject.reload();
+                    // Update local information
+                    customerRelationship[currentEdittingRelationship].remark = jQuery('#changeform-remark').val();
+                    customerRelationship[currentEdittingRelationship].relationship_id = jQuery('#changeform-relation').val();
+                    // Hide edit form and clear input
+                    jQuery('#edit-field').hide();
+                    clearEditForm();
+                }
+            }
+        });
+    }
+
+    function downloadCustomerRelationship()
+    {
+        new Ajax.Request('<?php echo Mage::getModel('adminhtml/url')->getUrl('*/*/loadCustomerRelationship') ?>', {
+            method: 'post',
+            onSuccess: function(response) {
+                var result = JSON.parse(response.responseText);
+                customerRelationship = result;
+            }
+        });
+    }
+
+</script>

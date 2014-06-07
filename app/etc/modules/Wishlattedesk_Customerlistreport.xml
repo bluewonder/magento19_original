@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wishlattedesk_Customerlistreport>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Wishlattedesk_Customerrelationship/>
+            </depends>
+        </Wishlattedesk_Customerlistreport>
+    </modules>
+</config>

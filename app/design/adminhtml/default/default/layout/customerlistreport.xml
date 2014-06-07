@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_customer_report_index>
+        <reference name="head">
+            <action method="addJs">
+                <file>wishlattedesk/jquery-1.11.1.min.js</file>
+            </action>
+            <action method="addCss">
+                <name>wishlattedesk/customerreport/customerreport.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="customerlistreport/adminhtml_report" name="customer.report" template="wishlattedesk/customerlistreport/report.phtml">
+                <block type="customerlistreport/adminhtml_report_filter_product" name="customer.report.filter.product" />
+                <block type="customerlistreport/adminhtml_report_customer" name="customer.report.customer" />
+            </block>
+        </reference>
+    </adminhtml_customer_report_index>
+
+    <adminhtml_customer_report_productgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="customerlistreport/adminhtml_report_filter_product" name="customer.report.filter.product"/>
+        </block>
+    </adminhtml_customer_report_productgrid>
+
+    <adminhtml_customer_report_customergrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="customerlistreport/adminhtml_report_customer" name="customer.report.customer"/>
+        </block>
+    </adminhtml_customer_report_customergrid>
+</layout>

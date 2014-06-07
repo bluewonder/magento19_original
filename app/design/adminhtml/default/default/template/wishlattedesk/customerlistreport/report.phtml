@@ -1,0 +1,107 @@
+<?php
+/**
+ * Wishlattedesk_Customerrelationship
+ *
+ * @category    Wishlattedesk
+ * @package     Wishlattedesk_Customerrelationship
+ * @copyright   Copyright (c) 2014 Wishlattedesk Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author      Hieu Nguyen (Wishlattedesk's team)
+ * @email       bzaikia@gmail.com
+ */
+
+/** @var $this Wishlattedesk_Customerlistreport_Block_Adminhtml_Report*/
+?>
+
+<div id="report-filter">
+    <div>
+        <h5><?php echo $this->__('Customer Group') ?></h5>
+        <select id="customer-group">
+            <?php foreach($this->getCustomerGroup() as $customerGroup): ?>
+                <option value="<?php echo $customerGroup->getId() ?>"><?php echo $customerGroup->getCode() ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <?php echo $this->__('Filter by purchased product ? ') ?><input type="checkbox" onclick="jQuery('#product_purchased_grid').toggle()" />
+    <div id="product_purchased_grid" style="display: none;">
+        <h5><?php echo $this->__('Had purchased product') ?></h5>
+        <?php echo $this->getChildHtml('customer.report.filter.product') ?>
+    </div>
+    <h5><?php echo $this->__('Join Date') ?></h5>
+    <div class="f-left">
+        <div><?php echo $this->__('From') ?>:&nbsp;<input class="input-text no-changes required-entry" type="text" id="period_date_from" name="report_from" value="<?php echo $this->getFilter('report_from') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" title="<?php echo $this->__('Select Date') ?>" id="period_date_from_trig" alt="<?php echo $this->__('Select Date') ?>" class="v-middle"/>&nbsp;&nbsp;</div>
+        <div id="period_date_from_advaice"></div>
+    </div>
+
+    <div class="f-left">
+        <div><?php echo $this->__('To') ?>:&nbsp;<input  class="input-text no-changes required-entry" type="text" id="period_date_to" name="report_to"  value="<?php echo $this->getFilter('report_to') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" class="v-middle" title="<?php echo $this->__('Select Date') ?>"id="period_date_to_trig" alt="<?php echo $this->__('Select Date') ?>"/>&nbsp;&nbsp;</div>
+        <div id="period_date_to_advaice"></div>
+    </div>
+
+    <script type="text/javascript">
+        <!--
+        Calendar.setup({
+            inputField : 'period_date_from',
+            button : 'period_date_from_trig',
+            align : 'Bl',
+            singleClick : true
+        });
+        Calendar.setup({
+            inputField : 'period_date_to',
+            button : 'period_date_to_trig',
+            align : 'Bl',
+            singleClick : true
+        });
+        //-->
+    </script>
+</div>
+<div><?php echo $this->getShowReportBt(); ?></div>
+
+<div id="customer-report">
+<?php echo $this->getChildHtml('customer.report.customer'); ?>
+</div>
+
+<script type="text/javascript" >
+    jQuery('#customer-report').hide();
+
+    function showReport()
+    {
+        var productIds = [];
+        var customerGroup = '';
+        var joinDateFrom = '';
+        var joinDateTo = '';
+
+        //get Customer group
+        customerGroup = jQuery('#customer-group').val();
+
+        // get all checked product
+        jQuery('input[data-product-id]:checked').each(function(){
+            productIds.push(jQuery(this).attr('data-product-id'));
+        });
+
+        // get join date
+        joinDateFrom = jQuery('#period_date_from').val();
+        joinDateTo = jQuery('#period_date_to').val();
+
+        new Ajax.Request('<?php echo Mage::getModel('adminhtml/url')->getUrl('*/*/setfilter') ?>', {
+            method: 'post',
+            parameters: {
+                productIds: productIds.toString(),
+                productFilter: jQuery('#product_purchased_grid').is(':visible') ? 1 : 0,
+                joinDateFrom: joinDateFrom,
+                joinDateTo: joinDateTo,
+                customerGroup: customerGroup
+            },
+            onSuccess: function(response) {
+                customerGridJsObject.reload();
+                jQuery('#customer-report').show();
+            }
+        });
+
+    }
+
+    function toggleFilterByPurchasedProduct()
+    {
+        jQuery('#product_purchased_grid').toggle();
+    }
+</script>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_relationship_index>
+        <reference name="content">
+            <block type="customerrelationship/adminhtml_relationship" name="relationship"/>
+        </reference>
+    </adminhtml_relationship_index>
+
+    <adminhtml_customer_edit>
+        <reference name="head">
+            <action method="addJs">
+                <file>wishlattedesk/jquery-1.11.1.min.js</file>
+            </action>
+            <action method="addCss">
+                <name>wishlattedesk/customerrelationship/customerrelationship.css</name>
+            </action>
+        </reference>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>relationship</name>
+                <block>customerrelationship/adminhtml_customer_edit_tab_relationship</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+
+    <adminhtml_customer_relationship>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="customerrelationship/adminhtml_customer_edit_tab_relationship_grid" name="adminhtml.customer.edit.tab.relationship"/>
+        </block>
+    </adminhtml_customer_relationship>
+
+    <adminhtml_customer_customer>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="customerrelationship/adminhtml_customer_edit_tab_customer_grid" name="adminhtml.customer.edit.tab.relationship.customer"/>
+        </block>
+    </adminhtml_customer_customer>
+</layout>

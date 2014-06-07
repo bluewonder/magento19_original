@@ -198,10 +198,10 @@ class Wishlattedesk_Customerlistreport_Block_Adminhtml_Report_Customer extends M
                     ->setCellValue('C1', Mage::helper('customerlistreport')->__('Telephone'))
                     ->setCellValue('D1', Mage::helper('customerlistreport')->__('Relations'));
 
-//                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-//                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-//                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-//                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+                $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
                 $i = 2; // data will be filled from row 2
             }
 

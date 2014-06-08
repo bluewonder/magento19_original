@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Wishlattedesk_Event
  *
@@ -10,7 +11,6 @@
  * @author      Hieu Nguyen (Wishlattedesk's team)
  * @email       bzaikia@gmail.com
  */
-
 class Wishlattedesk_Event_Block_Adminhtml_Event_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
@@ -25,13 +25,25 @@ class Wishlattedesk_Event_Block_Adminhtml_Event_Edit extends Mage_Adminhtml_Bloc
 
         $this->_updateButton('delete', 'label', Mage::helper('event')->__('Delete'));
 
+        $this->_addButton('add_fieldset', array
+        (
+            'label' => Mage::helper('webforms')->__('Add Field Set'),
+            'class' => 'add',
+            'onclick' => 'setLocation(\'' . $this->getAddFieldsetUrl() . '\')',
+        ));
+
+        $this->_addButton('add_field', array
+        (
+            'label' => Mage::helper('webforms')->__('Add Field'),
+            'class' => 'add',
+            'onclick' => 'setLocation(\'' . $this->getAddFieldUrl() . '\')',
+        ));
 
         $this->_addButton('saveandcontinue', array(
-            'label'     => Mage::helper('adminhtml')->__('Save And Continue Edit'),
-            'onclick'   => 'saveAndContinueEdit()',
-            'class'     => 'save',
+            'label' => Mage::helper('adminhtml')->__('Save And Continue Edit'),
+            'onclick' => 'saveAndContinueEdit()',
+            'class' => 'save',
         ), -100);
-
 
 
         $this->_formScripts[] = "
@@ -39,5 +51,15 @@ class Wishlattedesk_Event_Block_Adminhtml_Event_Edit extends Mage_Adminhtml_Bloc
                 editForm.submit($('edit_form').action+'back/edit/');
             }
         ";
+    }
+
+    public function getAddFieldUrl()
+    {
+        return $this->getUrl('webforms/adminhtml_fields/edit', array('webform_id' => Mage::registry('event_data')->getId()));
+    }
+
+    public function getAddFieldsetUrl()
+    {
+        return $this->getUrl('webforms/adminhtml_fieldsets/edit', array('webform_id' => Mage::registry('event_data')->getId()));
     }
 }

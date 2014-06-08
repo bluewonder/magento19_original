@@ -26,17 +26,17 @@ class Wishlattedesk_Event_Block_Adminhtml_Event_Edit_Tabs extends Mage_Adminhtml
             'content' => $this->getLayout()->createBlock('event/adminhtml_event_edit_tabs_form')->toHtml(),
         ));
 
-//        $this->addTab('address_section', array(
-//            'label' => $this->__('Address'),
-//            'title' => $this->__('Address'),
-//            'content' => $this->getLayout()->createBlock('xwarehouse/adminhtml_warehouse_edit_tabs_address')->toHtml(),
-//        ));
-//
-//        $this->addTab('contact_section', array(
-//            'label' => $this->__('Contact Person'),
-//            'title' => $this->__('Contact Person'),
-//            'content' => $this->getLayout()->createBlock('xwarehouse/adminhtml_warehouse_edit_tabs_contact')->toHtml(),
-//        ));
+        $this->addTab('form_fieldsets',array(
+            'label' => Mage::helper('webforms')->__('Field Sets'),
+            'title' => Mage::helper('webforms')->__('Field Sets'),
+            'content' => $this->getLayout()->createBlock('event/adminhtml_event_edit_tabs_fieldsets')->toHtml(),
+        ));
+
+        $this->addTab('form_fields',array(
+            'label' => Mage::helper('webforms')->__('Fields'),
+            'title' => Mage::helper('webforms')->__('Fields'),
+            'content' => $this->getLayout()->createBlock('event/adminhtml_event_edit_tabs_fields')->toHtml(),
+        ));
 
         return parent::_beforeToHtml();
     }

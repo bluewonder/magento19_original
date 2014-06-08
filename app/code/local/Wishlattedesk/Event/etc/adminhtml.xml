@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <acl>
+
+    </acl>
+    <menu>
+        <customer module="customer">
+            <children>
+                <event module="event">
+                    <title>Event</title>
+                    <sort_order>21</sort_order>
+                    <children>
+                        <manage module="event">
+                            <title>Event Manager</title>
+                            <sort_order>22</sort_order>
+                            <action>adminhtml/event/index</action>
+                        </manage>
+                    </children>
+                </event>
+            </children>
+        </customer>
+    </menu>
+</config>

@@ -26,6 +26,12 @@
                     <status>
                         <table>wishlattedesk_status</table>
                     </status>
+                    <fields>
+                        <table>wishlattedesk_fields</table>
+                    </fields>
+                    <fieldsets>
+                        <table>wishlattedesk_fieldsets</table>
+                    </fieldsets>
                 </entities>
             </event_resource>
         </models>
@@ -57,6 +63,14 @@
                     </modules>
                 </args>
             </adminhtml>
+            <webforms>
+                <args>
+                    <modules>
+                        <wishlattedesk_event before="VladimirPopov_WebForms">Wishlattedesk_Event_Webforms
+                        </wishlattedesk_event>
+                    </modules>
+                </args>
+            </webforms>
         </routers>
     </admin>
 

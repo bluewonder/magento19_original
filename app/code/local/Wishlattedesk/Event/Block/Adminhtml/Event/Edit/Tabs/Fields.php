@@ -40,7 +40,7 @@ class Wishlattedesk_Event_Block_Adminhtml_Event_Edit_Tabs_Fields extends Mage_Ad
             'index'     => 'id'
         ));
 
-        $this->addColumn('name', array(
+        $this->addColumn('field_name', array(
             'header'    => Mage::helper('webforms')->__('Name'),
             'index'     => 'name',
         ));

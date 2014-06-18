@@ -62,10 +62,14 @@ class Wishlattedesk_Event_Adminhtml_EventController extends Mage_Adminhtml_Contr
     }
 
     public function saveAction() {
-        if ($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost('event')) {
             $model = Mage::getModel('event/event');
-            $model->setData($data)
-                ->setId($this->getRequest()->getParam('id'));
+            if ($id = $this->getRequest()->getParam('id')) {
+                $model->load($id);
+            } else {
+                $model->load(null);
+            }
+            $model->setData($data);
             try {
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('event')->__('Event was successfully saved'));

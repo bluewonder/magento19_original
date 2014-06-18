@@ -24,7 +24,7 @@ class Wishlattedesk_Event_Block_Adminhtml_Event_Edit_Tabs_Form extends Mage_Admi
             'label' => Mage::helper('event')->__('Name'),
             'class' => 'required-entry',
             'required' => true,
-            'name' => 'name',
+            'name' => 'event[name]',
         ));
 
         if (Mage::getSingleton('adminhtml/session')->getEventData()) {

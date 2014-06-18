@@ -53,7 +53,7 @@ $installer->run("
 DROP TABLE IF EXISTS {$this->getTable('event/fields')};
 CREATE TABLE IF NOT EXISTS {$this->getTable('event/fields')} (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `webform_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
   `fieldset_id` int(11) NOT NULL,
   `name` text NOT NULL,
   `comment` text NOT NULL,
@@ -84,7 +84,7 @@ $installer->run("
 DROP TABLE IF EXISTS {$this->getTable('event/fieldsets')};
 CREATE TABLE IF NOT EXISTS {$this->getTable('event/fieldsets')} (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `webform_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
   `name` text NOT NULL,
   `result_display` varchar(10) NOT NULL DEFAULT 'on',
   `position` int(11) NOT NULL,

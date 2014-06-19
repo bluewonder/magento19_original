@@ -15,7 +15,7 @@ class Wishlattedesk_Event_Adminhtml_EventController extends Mage_Adminhtml_Contr
     // init action
     protected function _initAction() {
         $this->loadLayout()
-            ->_setActiveMenu('customer/event')
+            ->_setActiveMenu('event/manage')
             ->_addBreadcrumb(Mage::helper('event')->__('Event Manager'), Mage::helper('event')->__('Event Manager'));
 
         return $this;

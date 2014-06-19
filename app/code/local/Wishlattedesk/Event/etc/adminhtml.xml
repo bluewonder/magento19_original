@@ -4,8 +4,7 @@
 
     </acl>
     <menu>
-        <customer module="customer">
-            <children>
+
                 <event module="event">
                     <title>Event</title>
                     <sort_order>21</sort_order>
@@ -17,7 +16,6 @@
                         </manage>
                     </children>
                 </event>
-            </children>
-        </customer>
+
     </menu>
 </config>
